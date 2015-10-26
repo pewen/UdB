@@ -1,0 +1,240 @@
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <title>Universo de Bolsillo</title>
+
+    <style>
+      #myCanvas {
+        border:1px solid black;
+      }
+    </style>
+
+  </head>
+
+  <body>
+    <h1>Universo de Bolsillo</h1>
+    <h2>Lógica cuantificacional</h2>
+
+    <canvas id="myCanvas" width="550" height="700">
+      Your browser does not support the canvas tag.
+    </canvas>
+
+    <div>
+    <button onclick="botonVerdadero()">Verdadero</button>
+    <button onclick="botonFalso()">Falso</button>
+    <button id="togglee" style="visibility:hidden;" onclick="myFunction()">Nuevo ejemplo!</button>
+    </div>
+
+<script type="text/javascript">
+  var hidden = true;
+  
+  var canvas = document.getElementById('myCanvas');
+  var ctx = canvas.getContext('2d');
+  
+  HEIGHT = canvas.height;
+  WIDTH = canvas.width;
+  
+  var cantCirculos = 0;
+  var cantTriangulos = 0;
+  var cantPuntos = 0;
+  var cantCruces = 0;
+  
+  var textArray = ['Todos son triángulos', 'Algunos son circulos', 'Todos son puntos', 'Todos son circulos', 'Existe por lo menos un triángulo'];
+  
+  plot();
+  
+  randomNum = Math.floor(Math.random() * textArray.length);
+  message = textArray[randomNum];
+  ctx.font = "20pt Calibri";
+  ctx.fillText(message, 200, 600);
+    
+  //**************************
+  // Ploteo todos los elemntos
+  //**************************
+  function plot(){
+    ctx.save();
+    ctx.font = "30pt Calibri";
+
+    elemento(150, 100);
+    ctx.fillText("A", 140, 230);
+    elemento(150, 360);
+    ctx.fillText("B", 140, 490);
+    elemento(400, 100);
+    ctx.fillText("C", 390, 230);
+    elemento(400, 360);
+    ctx.fillText("D", 390, 490);
+
+    ctx.restore();
+  }
+  
+  //*********************
+  // Genero cada elemento
+  //*********************
+  function elemento(x, y){
+    if (Math.random() < 0.5){
+      triangulo(x, y, 145, 85);
+      cantTriangulos ++;
+    } 
+    if (Math.random() < 0.5){
+      circulo(x, y, 90);
+      cantCirculos ++;
+    }
+    if (Math.random() < 0.5){
+      cruz(x, y, 30);
+      cantCruces ++;
+    }
+    if (Math.random() < 0.5){
+      punto(x, y-40, 5);
+      cantPuntos ++;
+    }  
+  }
+
+  //*******************************
+  // Genero cada una de las figuras
+  //*******************************
+  function circulo(xInit, yInit, radio){
+    ctx.save();
+    ctx.beginPath();
+    
+    ctx.arc(xInit, yInit, radio, 0, 2*Math.PI);
+    ctx.lineWidth = 5;
+    ctx.stroke();
+    
+    ctx.restore();
+  }
+
+  function triangulo(xInit, yInit, base, altura){
+    ctx.save();
+    ctx.beginPath();
+
+    ctx.moveTo(xInit - base/2, yInit + altura/2);
+    ctx.lineTo(xInit, yInit - altura);
+    ctx.lineTo(xInit + base/2, yInit + altura/2);
+    ctx.closePath();
+    
+    // indicate stroke color + draw the path
+    ctx.lineWidth = 5;
+    ctx.strokeStyle = "#0000FF";
+    ctx.stroke();
+    
+    ctx.restore();
+  }
+  
+  function cruz(xInit, yInit, largo){
+    ctx.save();
+    ctx.beginPath();
+    
+    ctx.moveTo(xInit - largo/2, yInit);
+    ctx.lineTo(xInit + largo/2, yInit);
+    ctx.moveTo(xInit, yInit - largo/2);
+    ctx.lineTo(xInit, yInit + largo/2);
+    
+    ctx.lineWidth = 5;
+    ctx.strokeStyle = "#FFD800";
+    ctx.stroke();
+
+    ctx.restore();
+  }
+  
+  function punto(xInit, yInit, radio){
+    ctx.save();
+    ctx.beginPath();
+    
+    ctx.arc(xInit, yInit, radio, 0, 2*Math.PI, false);
+    
+    ctx.fillStyle = "#00FFB7"; 
+    ctx.fill();
+    
+    ctx.restore();
+  }
+  
+  //********************************************************
+  // Retorn true o false según se cumpla o no los enunciados
+  //********************************************************
+  function check(randomNum){
+    
+    if (randomNum === 0){
+      if (cantTriangulos === 4){
+        return true;
+      }
+      else {
+        return false;
+      }
+    } else if (randomNum === 1){
+      if (cantCirculos >= 1){
+        return true;
+      }
+      else {
+        return false;
+      }
+    } else if (randomNum === 2){
+      if (cantPuntos === 4){
+        return true;
+      }
+      else {
+        return false;
+      }
+    } else if (randomNum === 3){
+      if (cantCirculos === 4){
+        return true;
+      }
+      else {
+        return false;
+      }
+    } else if (randomNum === 4){
+      if (cantTriangulos >= 1){
+        return true;
+      }
+      else {
+        return false;
+      }
+    }
+    
+  }
+  
+  //*******************************
+  // Checke la respuesta de usuario
+  //*******************************
+  function botonVerdadero() {
+    showButton();
+    if (check(randomNum) === true){
+      document.getElementById("myCanvas").style.background = "green";
+    } else {
+      document.getElementById("myCanvas").style.background = "red";
+    }
+    
+  }
+
+  function botonFalso() {
+    
+    if (check(randomNum) === false){
+      document.getElementById("myCanvas").style.background = "green";
+    } else {
+      document.getElementById("myCanvas").style.background = "red";
+    }
+    showButton();
+  }
+  
+  // Muestro el boton de siguiente ejemplo
+  function showButton() {
+    hidden = !hidden;
+    if(!hidden) {
+      document.getElementById('togglee').style.visibility = 'visible';
+    }
+  }
+  
+  function myFunction() {
+    location.reload();
+  }
+  
+  //***************************
+  // Nuevo universo de bolsillo
+  //***************************
+  function nuevoUB() {
+    ctx.clearRect(0, 0, WIDTH, HEIGHT);
+  }
+
+</script>
+    
+</body>
+</html>
