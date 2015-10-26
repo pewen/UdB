@@ -1,4 +1,5 @@
 <html>
+  <link rel="stylesheet" href="udb.css">
   <head>
     <meta charset="UTF-8">
     <title>Universo de Bolsillo</title>
@@ -15,15 +16,21 @@
     <h1>Universo de Bolsillo</h1>
     <h2>Lógica cuantificacional</h2>
 
-    <canvas id="myCanvas" width="550" height="700">
-      Your browser does not support the canvas tag.
-    </canvas>
-
-    <div>
-    <button onclick="botonVerdadero()">Verdadero</button>
-    <button onclick="botonFalso()">Falso</button>
-    <button id="togglee" style="visibility:hidden;" onclick="myFunction()">Nuevo ejemplo!</button>
-    </div>
+    <table>
+      <tr>
+	<td>
+	  <canvas id="myCanvas" width="550" height="700">
+	    Your browser does not support the canvas tag.
+	  </canvas>
+	</td>
+	<td>
+	  <div>
+	    <button onclick="botonVerdadero()">Verdadero</button>
+	    <button onclick="botonFalso()">Falso</button>
+	    <button id="togglee" style="visibility:hidden;" onclick="myFunction()">Nuevo ejercicio</button>
+	  </div>
+	</td>
+    </table>
 
 <script type="text/javascript">
   var hidden = true;
